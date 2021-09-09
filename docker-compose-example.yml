@@ -1,0 +1,56 @@
+redis: 									#--name.       Dockerfile Json formate
+ image: redis							#<image-name>
+ 
+db:
+ image: postgres:9.4
+ 
+vote:
+ image: ./vote      					#For an inbuild application, Mention the path Of an application. Like vote is not the name of any images. This is in-build applications.
+ ports:									#-p 5000:80
+  -5000:80
+ links:									#--links redis:redis, In version: 2 no need to mention links.
+  -redis
+  
+result:
+ image: result-app
+ ports:
+  -5001:80
+ links:
+  -db
+ 
+worker:
+ image: worker
+ links
+  -db
+  -redis
+	  
+###################	version: 2	example ##############################
+version: 2
+service:									#Dockerfile Json formate
+	redis: 									#--name
+	 image: redis							#<image-name>
+	 
+	db:
+	 image: postgres:9.4
+	 
+	vote:
+	 image: ./vote      					#For an inbuild application, Mention the path Of an application. Like vote is not the name of any images. This is in-build applications.
+	 ports:									#-p 5000:80
+	  -5000:80
+	 depends_on:									#In version: 2 no need to mention links.
+	  -redis
+###################	version: 3	example (used in docker stacks)	##############################
+version: 3
+service:									#Dockerfile Json formate
+	redis: 									#--name
+	 image: redis							#<image-name>
+	 
+	db:
+	 image: postgres:9.4
+	 
+	vote:
+	 image: ./vote      					#For an inbuild application, Mention the path Of an application. Like vote is not the name of any images. This is in-build applications.
+	 ports:									#-p 5000:80
+	  -5000:80
+	 depends_on:									#In version: 2 no need to mention links.
+	  -redis
